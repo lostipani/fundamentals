@@ -1,4 +1,38 @@
-# Circular importing
+# Import system
+
+## Resolution
+Python follows a `LEGB` resolution rule
+* Local (inside a function)
+* Enclosing (`nonlocal` in nested function)
+* Global (module's scope)
+* Built-in (`len`, `str`, `next`, ...)
+
+#### Bonus: when using `nonlocal`
+For instance, in case of a list manipulation, the method `extend` has Enclosing scope resolution, whereas the augmented assignment `+=` only Local.
+```
+def main():
+  x = [1, 2]
+  y = x[:] # this makes a copy of the list, instead y = x would just reference the same object!
+
+  def foo():
+    x.extend([3, 4])
+  def goo():
+    nonlocal y
+    y += [3, 4]
+
+  foo()
+  assert x == [1, 2, 3, 4]
+  goo()
+  assert y == [1, 2, 3, 4]
+```
+
+## Import workflow
+When typing `from mod import foo` or simpy `import mod` the follow happens
+1. `mod` is executed
+2. the module is added to `sys.modules[mod]`
+3. names such as `foo` in the caller's namespace (see `__dict__`) are bound to the object imported from `sys.modules[mod].__dict__`
+
+## Circular import resolution
 Say you have a package
 ```
 package/
