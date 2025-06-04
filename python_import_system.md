@@ -32,6 +32,15 @@ When typing `from mod import foo` or simpy `import mod` the following happens
 2. the module is added to `sys.modules[mod]`
 3. names such as `foo` in the caller's namespace (see `__dict__`) are bound to the object imported from `sys.modules[mod].__dict__`
 
+#### Bonus: what is name binding?
+When you assign a value to a variable like this
+```
+x = 4
+```
+you bind an in-memory object `4` to a name `x`. The Garbage Collector counts how many references (aka names) are bound to that object (aka value). If this counter goes to zero and the object is not `immortal` (in CPython anything that can't be deallocated, such as `None` or `True`) then the object is deallocated and memory freed. In other words, it is the Python implementation that deals with memory allocation and release for an object, while the programmer just binds names to objects. 
+
+This in contrast with C++ where you can explicitly reference and allocate objects, even tough the `RAII` (Resource Allocation Is Initialization) paradigm is most of the time enforced via utilities that stave off the possibility of allocate memory and fail to assign to named references.
+
 ## Circular import resolution
 Say you have a package
 ```
@@ -49,7 +58,7 @@ python -m package.b
 #### This fails
 File `/a.py`
 ```python title="/a.py"
-from package.b import goo  # global (= module's scope) referencing of name goo
+from package.b import goo  # global (= module's scope) binding of name goo
 
 def foo():
     return goo()+1
@@ -68,7 +77,7 @@ def goo():
 import package.b as b
 
 def foo():
-    return b.goo()+1 # local referencing of name goo
+    return b.goo()+1 # local binding of name goo
 ```
 File `/b.py`
 ```python title="/b.py"
