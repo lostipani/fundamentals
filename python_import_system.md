@@ -28,7 +28,7 @@ def main():
 
 ## Import workflow
 When typing `from mod import foo` or simpy `import mod` the follow happens
-1. `mod` is executed
+1. `mod` is executed (global statements executed, functions and classes defined)
 2. the module is added to `sys.modules[mod]`
 3. names such as `foo` in the caller's namespace (see `__dict__`) are bound to the object imported from `sys.modules[mod].__dict__`
 
@@ -46,7 +46,7 @@ python -m package.a
 python -m package.b
 ```
 
-### This fails
+#### This fails
 File `/a.py`
 ```python title="/a.py"
 from package.b import goo  # global (= module's scope) referencing of name goo
@@ -63,7 +63,7 @@ def goo():
 ```
 * Therefore importing with the `from <module> import <object>` statement helps catch circular dependencies.
 
-### This works
+#### This works
 ```python title="/a.py"
 import package.b as b
 
@@ -78,7 +78,7 @@ def goo():
     return 1
 ```
 
-### But this fails
+#### But this fails
 File `/a.py`
 ```python title="/a.py"
 import package.b as b
