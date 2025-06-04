@@ -2,10 +2,10 @@
 
 ## Resolution
 Python follows a `LEGB` resolution rule
-* Local (inside a function)
-* Enclosing (`nonlocal` in nested function)
-* Global (module's scope)
-* Built-in (`len`, `str`, `next`, ...)
+1. Local (inside a function)
+2. Enclosing (`nonlocal` in nested function)
+3. Global (module's scope)
+4. Built-in (`len`, `str`, `next`, ...)
 
 #### Bonus: when using `nonlocal`
 For instance, in case of a list manipulation, the method `extend` has Enclosing scope resolution, whereas the augmented assignment `+=` only Local.
@@ -27,7 +27,7 @@ def main():
 ```
 
 ## Import workflow
-When typing `from mod import foo` or simpy `import mod` the follow happens
+When typing `from mod import foo` or simpy `import mod` the following happens
 1. `mod` is executed (global statements executed, functions and classes defined)
 2. the module is added to `sys.modules[mod]`
 3. names such as `foo` in the caller's namespace (see `__dict__`) are bound to the object imported from `sys.modules[mod].__dict__`
