@@ -65,11 +65,12 @@ python -m package.b
 #### This fails
 File `package/a.py`
 ```
-from package.b import goo  # global (= module's scope) binding of name goo
+from package.b import goo
 
 def foo():
     return goo()+1
 ```
+* Binding of name `goo` is done at global scope (module's level).
 * Therefore importing with the `from <module> import <object>` statement helps catch circular dependencies.
 
 #### This works
@@ -80,7 +81,8 @@ import package.b as b
 def foo():
     return b.goo()+1 # local binding of name goo
 ```
-
+* Binding of name `b.goo` is done at local scope (function's level), thus avoiding clashes at module's level.
+  
 #### But this fails
 File `package/a.py`
 ```
