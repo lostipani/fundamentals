@@ -34,16 +34,15 @@ assert type(object) == type
 ```
 
 ## Use case: singleton implementation
-As an example of metaclass usage, one can implement a singleton facility to enforce this pattern to any custom class that uses it as a mixin:
+As an example of metaclass usage, one can implement a singleton mixin to enforce this pattern to any custom class:
 ```
 class Singleton(type):
   _instances = {}
-  def __call__(class_name, *args, **kwargs):
-    if class_name not in class_name._instances:
-      _instances["class_name"] = super().__call__(class_name, *args, **kwargs)
-    return _instances.get(class_name)
+  def __call__(cls, *args, **kwargs):
+    if cls not in cls._instances:
+      cls._instances[cls] = super().__call__(*args, **kwargs)
+    return cls._instances.get(cls)
 
 class ClassToBeSingleton(object, metaclass=Singleton):
-  def __init__(self, *args, **kwargs):
-    pass 
+  pass
 ```
