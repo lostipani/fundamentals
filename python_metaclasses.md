@@ -34,7 +34,7 @@ assert type(object) == type
 ```
 
 ## Use case: a singleton implementation
-As an example of metaclass usage, one can implement a singleton mixin to enforce this pattern to any custom class:
+As an example of metaclass usage, one can implement a singleton mixin and enforce this pattern to any custom class as follows:
 ```
 class Singleton(type):
   _instances = {}
@@ -45,4 +45,8 @@ class Singleton(type):
 
 class ClassToBeSingleton(object, metaclass=Singleton):
   pass
+
+a = ClassToBeSingleton()
+b = ClassToBeSingleton()
+assert a is b
 ```
