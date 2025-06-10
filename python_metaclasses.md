@@ -32,3 +32,18 @@ assert isinstance(object, type) == True
 assert type(type) == type
 assert type(object) == type
 ```
+
+## Use case: singleton implementation
+As an example of metaclass usage, one can implement a singleton facility to enforce this pattern to any custom class that uses it as a mixin:
+```
+class Singleton(type):
+  _instances = {}
+  def __call__(class_name, *args, **kwargs):
+    if class_name not in class_name._instances:
+      _instances["class_name"] = super().__call__(class_name, *args, **kwargs)
+    return _instances.get(class_name)
+
+class ClassToBeSingleton(object, metaclass=Singleton):
+  def __init__(self, *args, **kwargs):
+    pass 
+```
