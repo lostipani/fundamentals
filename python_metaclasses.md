@@ -25,7 +25,7 @@ class MyClass(BaseClass, metaclass=MyMetaClass):
   pass
 ```
 
-### `type` is an object itself
+### `type` is an `object` itself
 ```
 assert isinstance(type, object) == True
 assert isinstance(object, type) == True
@@ -33,7 +33,7 @@ assert type(type) == type
 assert type(object) == type
 ```
 
-## Use case: singleton implementation
+## Use case: a singleton implementation
 As an example of metaclass usage, one can implement a singleton mixin to enforce this pattern to any custom class:
 ```
 class Singleton(type):
