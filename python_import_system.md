@@ -79,7 +79,7 @@ File `package/a.py`
 import package.b as b
 
 def foo():
-    return b.goo()+1 # local binding of name goo
+    return b.goo()+1
 ```
 * Binding of name `b.goo` is done at local scope (function's level), thus avoiding clashes at module's level.
   
