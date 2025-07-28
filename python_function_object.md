@@ -10,7 +10,7 @@ f(1)
 assert f(2) == [1, 2]
 ```
 
-The rationale is that a function is _a first-class object_. The value is created at the definition when the interpreter encounters the `def` keyword. Here the object is bound to the name `f`, and the arguments as well.
+The rationale is that a function is _a first-class object_ (see below). The value is created at the definition when the interpreter encounters the `def` keyword. Here the object is bound to the name `f`, and the arguments as well.
 
 In other terms, the function above is phenomenologically equivalent to an instance of such a class:
 
@@ -47,8 +47,28 @@ assert a(1) == [5, 6, 1]
 ```
 
 ### A cautionary tale on default arguments for mutables
-A list is a mutable. This behaviour on mutables, puzzling to whom not acquainted with Python's logic, should suggest the programmer to adopt another approach when defining default values for mutable arguments.
+A list is a mutable. The behaviour described in this document, puzzling to whom not acquainted with Python's logic, should suggest the programmer to adopt another approach when defining default values for mutable arguments.
 
 Alternatives are:
 - the `None` value
 - a _sentinel_ object such as `object()` (an instance of the primitive class) 
+
+### Def: first-class citizens
+A possible definition is that a first-class object can be:
+- assigned to a variable
+- passed as argument of a function
+- returned by a function
+- tested for equality
+
+In case of a first-class function, this can be passed as an argument of _higher-order_ functions. This is necessary to functional programming.
+
+Moreover, a first-class function allows for the definition of a _closure_ that is the following structure:
+
+```python
+def f(x):
+  def g():
+    return 1+x
+  return g
+
+assert f(4)() == 5
+```
